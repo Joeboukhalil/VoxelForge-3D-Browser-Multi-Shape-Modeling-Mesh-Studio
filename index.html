@@ -237,7 +237,7 @@
     </div>
   </header>
 
-  <!-- Floating Contextual Modify & Action Panel (positioned upper-center below header so it never hides behind bottom buttons) -->
+  <!-- Floating Contextual Modify & Action Panel -->
   <div id="context-action-bar" class="hidden fixed top-24 sm:top-28 left-1/2 -translate-x-1/2 z-30 pointer-events-auto w-[96vw] max-w-2xl">
     <div class="glass-panel rounded-2xl p-2 sm:p-2.5 flex flex-col gap-2 shadow-2xl border border-sky-400/35">
 
@@ -266,28 +266,40 @@
         </div>
       </div>
 
-      <!-- Rotate Shape in Every Direction (X Pitch, Y Yaw, Z Roll + Step Toggle + Reset) -->
+      <!-- 360° Step Rotation Buttons: Horizontal, Vertical, +45° Diagonal, -45° Diagonal -->
       <div class="bg-slate-900/85 rounded-xl p-1.5 border border-white/5">
         <div class="flex items-center justify-between gap-2 mb-1 px-1">
-          <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400">Rotate Shape (Every Direction)</span>
-          <div class="flex items-center gap-1">
-            <button id="btn-rot-step" type="button" title="Toggle Rotation Angle Step"
-              class="px-2 py-0.5 rounded-md bg-slate-800 hover:bg-slate-700 text-[10px] font-bold text-amber-300 border border-amber-400/25 transition">
-              Step: 45°
-            </button>
-            <button id="btn-rot-reset" type="button" title="Reset Rotation to 0°"
-              class="px-2 py-0.5 rounded-md bg-slate-800 hover:bg-slate-700 text-[10px] font-bold text-slate-300 hover:text-white transition">
-              Reset 0°
-            </button>
-          </div>
+          <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400">Rotate 360° Steps (Horiz • Vert • +45° • -45°)</span>
+          <button id="btn-rot-reset" type="button" title="Reset Rotation to 0°"
+            class="px-2 py-0.5 rounded-md bg-slate-800 hover:bg-slate-700 text-[10px] font-bold text-slate-300 hover:text-white transition">
+            Reset 0°
+          </button>
         </div>
-        <div class="grid grid-cols-3 sm:grid-cols-6 gap-1">
-          <button data-rot-axis="x" data-rot-sign="-1" type="button" title="Tilt / Pitch Backward (-X)" class="rot-btn py-1.5 rounded-lg bg-slate-800 hover:bg-amber-400 hover:text-slate-950 text-[11px] font-bold text-slate-200 transition active:scale-95">X -</button>
-          <button data-rot-axis="x" data-rot-sign="1" type="button" title="Tilt / Pitch Forward (+X)" class="rot-btn py-1.5 rounded-lg bg-slate-800 hover:bg-amber-400 hover:text-slate-950 text-[11px] font-bold text-slate-200 transition active:scale-95">X +</button>
-          <button data-rot-axis="y" data-rot-sign="-1" type="button" title="Turn Left / Yaw (-Y)" class="rot-btn py-1.5 rounded-lg bg-slate-800 hover:bg-amber-400 hover:text-slate-950 text-[11px] font-bold text-slate-200 transition active:scale-95">Y -</button>
-          <button data-rot-axis="y" data-rot-sign="1" type="button" title="Turn Right / Yaw (+Y)" class="rot-btn py-1.5 rounded-lg bg-slate-800 hover:bg-amber-400 hover:text-slate-950 text-[11px] font-bold text-slate-200 transition active:scale-95">Y +</button>
-          <button data-rot-axis="z" data-rot-sign="-1" type="button" title="Roll Left (-Z)" class="rot-btn py-1.5 rounded-lg bg-slate-800 hover:bg-amber-400 hover:text-slate-950 text-[11px] font-bold text-slate-200 transition active:scale-95">Z -</button>
-          <button data-rot-axis="z" data-rot-sign="1" type="button" title="Roll Right (+Z)" class="rot-btn py-1.5 rounded-lg bg-slate-800 hover:bg-amber-400 hover:text-slate-950 text-[11px] font-bold text-slate-200 transition active:scale-95">Z +</button>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
+          <button id="btn-rot-horiz" data-rot-mode="horizontal" type="button"
+            title="Rotate horizontally step-by-step around a full 360°"
+            class="rot-step360-btn py-1.5 px-2 rounded-lg bg-slate-800 hover:bg-amber-400 hover:text-slate-950 text-[11px] font-bold text-slate-200 transition active:scale-95 flex items-center justify-between">
+            <span>Horiz 360°</span>
+            <span id="readout-rot-horizontal" class="text-[10px] font-mono opacity-80">0°</span>
+          </button>
+          <button id="btn-rot-vert" data-rot-mode="vertical" type="button"
+            title="Rotate vertically step-by-step around a full 360°"
+            class="rot-step360-btn py-1.5 px-2 rounded-lg bg-slate-800 hover:bg-amber-400 hover:text-slate-950 text-[11px] font-bold text-slate-200 transition active:scale-95 flex items-center justify-between">
+            <span>Vert 360°</span>
+            <span id="readout-rot-vertical" class="text-[10px] font-mono opacity-80">0°</span>
+          </button>
+          <button id="btn-rot-diag-pos" data-rot-mode="diag_pos45" type="button"
+            title="Rotate on +45° diagonal axis step-by-step around a full 360°"
+            class="rot-step360-btn py-1.5 px-2 rounded-lg bg-slate-800 hover:bg-amber-400 hover:text-slate-950 text-[11px] font-bold text-slate-200 transition active:scale-95 flex items-center justify-between">
+            <span>+45° 360°</span>
+            <span id="readout-rot-diag_pos45" class="text-[10px] font-mono opacity-80">0°</span>
+          </button>
+          <button id="btn-rot-diag-neg" data-rot-mode="diag_neg45" type="button"
+            title="Rotate on -45° diagonal axis step-by-step around a full 360°"
+            class="rot-step360-btn py-1.5 px-2 rounded-lg bg-slate-800 hover:bg-amber-400 hover:text-slate-950 text-[11px] font-bold text-slate-200 transition active:scale-95 flex items-center justify-between">
+            <span>-45° 360°</span>
+            <span id="readout-rot-diag_neg45" class="text-[10px] font-mono opacity-80">0°</span>
+          </button>
         </div>
       </div>
 
@@ -541,6 +553,7 @@
     const HALF_GRID = GRID_SIZE / 2;
     const MAX_HEIGHT = 24;         // Vertical build ceiling
     const SNAP_STEP = 0.25;        // Sub-grid snapping increment
+    const ROT_STEP_360_DEG = 15;   // Small step size (15° = 24 steps per 360°)
     const STORAGE_KEY = 'voxelforge_saved_models_v2';
 
     const PALETTE = [
@@ -558,6 +571,15 @@
       '#78350f'  // Wood Brown
     ];
 
+    function createEmptyRot360() {
+      return {
+        horizontal: 0,
+        vertical: 0,
+        diag_pos45: 0,
+        diag_neg45: 0
+      };
+    }
+
     const state = {
       mode: 'build',              // 'build' | 'select'
       twoTapMode: true,           // true = 1st tap defines place, 2nd tap builds; false = 1 tap builds
@@ -565,10 +587,9 @@
       activeColor: PALETTE[0],
       activeSize: 1.0,            // Base size scalar (0.25 to 4.0)
       activeShape: 'square',      // 'square' | 'circle' | 'half_circle' | 'triangle' | 'rectangle' | 'long_stick'
-      rotStepDeg: 45,             // Rotation increment in degrees (45 or 90)
-      voxels: new Map(),          // key: id -> { id, mesh, color, x, y, z, size, shape, rx, ry, rz }
+      voxels: new Map(),          // key: id -> { id, mesh, color, x, y, z, size, shape, rx, ry, rz, rot360 }
       nextId: 1,
-      stagedPos: null,            // { x, y, z, size, shape, rx, ry, rz } currently previewed by ghost shape
+      stagedPos: null,            // { x, y, z, size, shape, rx, ry, rz, rot360 } currently previewed by ghost shape
       selectedId: null,           // id of currently selected shape in 'select' mode
       undoStack: [],
       redoStack: []
@@ -727,18 +748,12 @@
       return getShapeSpec(shapeType).getMetrics(size);
     }
 
-    /**
-     * Projects a shape's local half-extents (halfX, halfY, halfZ) rotated by
-     * Euler angles (rx, ry, rz) onto a unit world direction vector `dirVec`.
-     * Allows exact face attachment even when a shape is rotated in any direction.
-     */
     function getRotatedExtentAlongDir(shapeType, size, rx, ry, rz, dirVec) {
       const m = getShapeMetrics(shapeType, size);
       const euler = new THREE.Euler(rx || 0, ry || 0, rz || 0, 'XYZ');
       const rotMat = new THREE.Matrix4().makeRotationFromEuler(euler);
       const e = rotMat.elements;
 
-      // Local axes transformed into world space
       const axisX = new THREE.Vector3(e[0], e[1], e[2]);
       const axisY = new THREE.Vector3(e[4], e[5], e[6]);
       const axisZ = new THREE.Vector3(e[8], e[9], e[10]);
@@ -897,7 +912,7 @@
     }
 
     // =========================================================================
-    // 6. SHAPE CRUD, MIDDLE/DIRECTIONAL/ROTATION MODIFICATION & UNDO/REDO
+    // 6. SHAPE CRUD, MIDDLE/DIRECTIONAL/360-ROTATION & UNDO/REDO
     // =========================================================================
     function roundSnap(val) {
       return Math.round(val / SNAP_STEP) * SNAP_STEP;
@@ -988,7 +1003,8 @@
           shape: v.shape || 'square',
           rx: Number((v.rx || 0).toFixed(4)),
           ry: Number((v.ry || 0).toFixed(4)),
-          rz: Number((v.rz || 0).toFixed(4))
+          rz: Number((v.rz || 0).toFixed(4)),
+          rot360: { ...(v.rot360 || createEmptyRot360()) }
         });
       });
       return list;
@@ -1015,10 +1031,11 @@
         const rx = item.rx || 0;
         const ry = item.ry || 0;
         const rz = item.rz || 0;
+        const rot360 = { ...createEmptyRot360(), ...(item.rot360 || {}) };
         const id = state.nextId++;
         const mesh = createVoxelMesh(id, item.x, item.y, item.z, size, item.color, shape, rx, ry, rz);
         modelGroup.add(mesh);
-        state.voxels.set(id, { id, mesh, color: item.color, x: item.x, y: item.y, z: item.z, size, shape, rx, ry, rz });
+        state.voxels.set(id, { id, mesh, color: item.color, x: item.x, y: item.y, z: item.z, size, shape, rx, ry, rz, rot360 });
       });
       updateUIState();
     }
@@ -1049,7 +1066,8 @@
       shapeType = state.activeShape,
       rx = 0,
       ry = 0,
-      rz = 0
+      rz = 0,
+      rot360 = createEmptyRot360()
     ) {
       if (!isWithinBounds(cx, cy, cz, size, shapeType)) {
         showToast('Shape exceeds build bounds');
@@ -1064,7 +1082,20 @@
       const id = state.nextId++;
       const mesh = createVoxelMesh(id, cx, cy, cz, size, color, shapeType, rx, ry, rz);
       modelGroup.add(mesh);
-      state.voxels.set(id, { id, mesh, color, x: cx, y: cy, z: cz, size, shape: shapeType, rx, ry, rz });
+      state.voxels.set(id, {
+        id,
+        mesh,
+        color,
+        x: cx,
+        y: cy,
+        z: cz,
+        size,
+        shape: shapeType,
+        rx,
+        ry,
+        rz,
+        rot360: { ...createEmptyRot360(), ...rot360 }
+      });
 
       mesh.scale.set(0.2, 0.2, 0.2);
       animateScale(mesh, 1);
@@ -1159,12 +1190,12 @@
     }
 
     function setStagedPosition(pos) {
-      state.stagedPos = pos;
-      if (pos && !state.isLocked && state.mode === 'build') {
+      state.stagedPos = pos ? { ...pos, rot360: { ...createEmptyRot360(), ...(pos.rot360 || {}) } } : null;
+      if (state.stagedPos && !state.isLocked && state.mode === 'build') {
         ghostMat.color.set(state.activeColor);
-        refreshGhostGeometry(pos.shape || state.activeShape, pos.size);
-        ghostGroup.position.set(pos.x, pos.y, pos.z);
-        ghostGroup.rotation.set(pos.rx || 0, pos.ry || 0, pos.rz || 0);
+        refreshGhostGeometry(state.stagedPos.shape || state.activeShape, state.stagedPos.size);
+        ghostGroup.position.set(state.stagedPos.x, state.stagedPos.y, state.stagedPos.z);
+        ghostGroup.rotation.set(state.stagedPos.rx || 0, state.stagedPos.ry || 0, state.stagedPos.rz || 0);
         ghostGroup.visible = true;
       } else {
         ghostGroup.visible = false;
@@ -1176,6 +1207,7 @@
       state.selectedId = id;
       if (id && state.voxels.has(id) && !state.isLocked) {
         const v = state.voxels.get(id);
+        if (!v.rot360) v.rot360 = createEmptyRot360();
         updateSelectionBoxForItem(v);
         syncShapeControls(v.shape);
         syncSizeControls(v.size);
@@ -1194,11 +1226,12 @@
     }
 
     // =========================================================================
-    // 7. MIDDLE, 4-DIRECTION + UP/DOWN MOVEMENT & 3D ROTATION (X/Y/Z)
+    // 7. MIDDLE, 4-DIRECTION + UP/DOWN & 360-DEGREE STEP ROTATIONS
     // =========================================================================
     function getActiveEditableTarget() {
       if (state.isLocked) return null;
       if (state.mode === 'build' && state.stagedPos) {
+        if (!state.stagedPos.rot360) state.stagedPos.rot360 = createEmptyRot360();
         return {
           kind: 'staged',
           data: state.stagedPos,
@@ -1213,10 +1246,11 @@
             ghostGroup.position.set(this.data.x, this.data.y, this.data.z);
             updateUIState();
           },
-          applyRotation(nrx, nry, nrz) {
+          applyEulerAndLoop(nrx, nry, nrz, nextRot360) {
             this.data.rx = normalizeAngleRad(nrx);
             this.data.ry = normalizeAngleRad(nry);
             this.data.rz = normalizeAngleRad(nrz);
+            this.data.rot360 = nextRot360;
             ghostGroup.rotation.set(this.data.rx, this.data.ry, this.data.rz);
             updateUIState();
           }
@@ -1224,6 +1258,7 @@
       }
       if (state.mode === 'select' && state.selectedId && state.voxels.has(state.selectedId)) {
         const v = state.voxels.get(state.selectedId);
+        if (!v.rot360) v.rot360 = createEmptyRot360();
         return {
           kind: 'selected',
           data: v,
@@ -1243,11 +1278,12 @@
             updateSelectionBoxForItem(v);
             updateUIState();
           },
-          applyRotation(nrx, nry, nrz) {
+          applyEulerAndLoop(nrx, nry, nrz, nextRot360) {
             saveHistory();
             v.rx = normalizeAngleRad(nrx);
             v.ry = normalizeAngleRad(nry);
             v.rz = normalizeAngleRad(nrz);
+            v.rot360 = nextRot360;
             v.mesh.rotation.set(v.rx, v.ry, v.rz);
             v.mesh.userData.rx = v.rx;
             v.mesh.userData.ry = v.ry;
@@ -1271,10 +1307,6 @@
       showToast(`${getShapeSpec(d.shape).label} → Middle`);
     }
 
-    /**
-     * Moves in all 4 horizontal directions (forward, backward, left, right)
-     * plus up and down.
-     */
     function applyDirectionalMove(direction) {
       const target = getActiveEditableTarget();
       if (!target) {
@@ -1322,25 +1354,65 @@
       );
     }
 
-    function applyShapeRotation(axis, sign) {
+    /**
+     * Rotates the target shape step-by-step around a full 360° loop for one of:
+     * - 'horizontal' : around world up (0, 1, 0)
+     * - 'vertical'   : around camera right axis
+     * - 'diag_pos45' : around axis tilted +45° in XY plane (cos 45°, sin 45°, 0)
+     * - 'diag_neg45' : around axis tilted -45° in XY plane (cos -45°, sin -45°, 0)
+     */
+    function applyStep360Rotation(rotMode) {
       const target = getActiveEditableTarget();
       if (!target) {
         showToast('Tap to preview a shape or select one first');
         return;
       }
+
       const d = target.data;
-      const deltaRad = THREE.MathUtils.degToRad(state.rotStepDeg * sign);
-      let rx = d.rx || 0;
-      let ry = d.ry || 0;
-      let rz = d.rz || 0;
+      const prevLoop = { ...createEmptyRot360(), ...(d.rot360 || {}) };
+      const nextAngleDeg = (prevLoop[rotMode] || 0) + ROT_STEP_360_DEG;
+      const completedFull360 = nextAngleDeg >= 360;
+      const storedDeg = completedFull360 ? 0 : nextAngleDeg;
+      prevLoop[rotMode] = storedDeg;
 
-      if (axis === 'x') rx += deltaRad;
-      else if (axis === 'y') ry += deltaRad;
-      else if (axis === 'z') rz += deltaRad;
+      let axis = new THREE.Vector3(0, 1, 0);
+      let modeLabel = 'Horiz';
 
-      target.applyRotation(rx, ry, rz);
-      const degDisplay = Math.round(THREE.MathUtils.radToDeg(axis === 'x' ? rx : axis === 'y' ? ry : rz));
-      showToast(`Rotated ${axis.toUpperCase()} to ${degDisplay}°`);
+      if (rotMode === 'horizontal') {
+        axis.set(0, 1, 0).normalize();
+        modeLabel = 'Horiz';
+      } else if (rotMode === 'vertical') {
+        const viewDir = controls.target.clone().sub(camera.position).normalize();
+        axis.crossVectors(viewDir, new THREE.Vector3(0, 1, 0));
+        if (axis.lengthSq() < 1e-6) axis.set(1, 0, 0);
+        axis.normalize();
+        modeLabel = 'Vert';
+      } else if (rotMode === 'diag_pos45') {
+        const rad45 = THREE.MathUtils.degToRad(45);
+        axis.set(Math.cos(rad45), Math.sin(rad45), 0).normalize();
+        modeLabel = '+45°';
+      } else if (rotMode === 'diag_neg45') {
+        const radNeg45 = THREE.MathUtils.degToRad(-45);
+        axis.set(Math.cos(radNeg45), Math.sin(radNeg45), 0).normalize();
+        modeLabel = '-45°';
+      }
+
+      const currentEuler = new THREE.Euler(d.rx || 0, d.ry || 0, d.rz || 0, 'XYZ');
+      const currentQuat = new THREE.Quaternion().setFromEuler(currentEuler);
+      const deltaQuat = new THREE.Quaternion().setFromAxisAngle(
+        axis,
+        THREE.MathUtils.degToRad(ROT_STEP_360_DEG)
+      );
+      currentQuat.premultiply(deltaQuat).normalize();
+
+      const updatedEuler = new THREE.Euler().setFromQuaternion(currentQuat, 'XYZ');
+      target.applyEulerAndLoop(updatedEuler.x, updatedEuler.y, updatedEuler.z, prevLoop);
+
+      if (completedFull360) {
+        showToast(`${modeLabel} completed full 360° loop`);
+      } else {
+        showToast(`${modeLabel} rotation: ${storedDeg}° / 360°`);
+      }
     }
 
     function resetShapeRotation() {
@@ -1349,7 +1421,7 @@
         showToast('Tap to preview a shape or select one first');
         return;
       }
-      target.applyRotation(0, 0, 0);
+      target.applyEulerAndLoop(0, 0, 0, createEmptyRot360());
       showToast('Rotation reset to 0°');
     }
 
@@ -1378,11 +1450,6 @@
       return intersects[0];
     }
 
-    /**
-     * Computes placement position on any side/face of an existing shape—even
-     * when that shape is rotated in any direction—by using the true world
-     * surface normal and projected extents along that normal.
-     */
     function computePlacementCoords(hit) {
       const newSize = state.activeSize;
       const newShape = state.activeShape;
@@ -1428,7 +1495,8 @@
           shape: newShape,
           rx: 0,
           ry: 0,
-          rz: 0
+          rz: 0,
+          rot360: createEmptyRot360()
         };
       } else {
         const pt = hit.point;
@@ -1442,7 +1510,8 @@
           shape: newShape,
           rx: 0,
           ry: 0,
-          rz: 0
+          rz: 0,
+          rot360: createEmptyRot360()
         };
       }
     }
@@ -1486,7 +1555,7 @@
         }
 
         if (!state.twoTapMode) {
-          addVoxel(targetPos.x, targetPos.y, targetPos.z, targetPos.size, state.activeColor, true, targetPos.shape, 0, 0, 0);
+          addVoxel(targetPos.x, targetPos.y, targetPos.z, targetPos.size, state.activeColor, true, targetPos.shape, 0, 0, 0, createEmptyRot360());
           return;
         }
 
@@ -1499,7 +1568,7 @@
           state.stagedPos.shape === targetPos.shape
         ) {
           const sp = state.stagedPos;
-          addVoxel(sp.x, sp.y, sp.z, sp.size, state.activeColor, true, sp.shape, sp.rx || 0, sp.ry || 0, sp.rz || 0);
+          addVoxel(sp.x, sp.y, sp.z, sp.size, state.activeColor, true, sp.shape, sp.rx || 0, sp.ry || 0, sp.rz || 0, sp.rot360 || createEmptyRot360());
           setStagedPosition(null);
         } else {
           setStagedPosition(targetPos);
@@ -1630,7 +1699,7 @@
         const nx = roundSnap(item.x + shiftX);
         const ny = roundSnap(item.y + shiftY);
         const nz = roundSnap(item.z);
-        if (addVoxel(nx, ny, nz, size, item.color || state.activeColor, false, shape, item.rx || 0, item.ry || 0, item.rz || 0)) {
+        if (addVoxel(nx, ny, nz, size, item.color || state.activeColor, false, shape, item.rx || 0, item.ry || 0, item.rz || 0, item.rot360 || createEmptyRot360())) {
           addedCount++;
         }
       });
@@ -1702,7 +1771,7 @@
               (xHits.length > 0 && xHits[0].distance < 0.65);
 
             if (uniqueHits % 2 === 1 || nearSurface) {
-              voxels.push({ x: cx, y: cy, z: cz, size: 1, color: state.activeColor, shape: 'square', rx: 0, ry: 0, rz: 0 });
+              voxels.push({ x: cx, y: cy, z: cz, size: 1, color: state.activeColor, shape: 'square', rx: 0, ry: 0, rz: 0, rot360: createEmptyRot360() });
             }
           }
         }
@@ -1934,7 +2003,7 @@
       if (format === 'json') {
         const payload = {
           app: 'VoxelForge 3D',
-          version: 4,
+          version: 5,
           exportedAt: new Date().toISOString(),
           voxels: serializeCurrentVoxels()
         };
@@ -2019,7 +2088,6 @@
     const btnConfirmPlace = document.getElementById('btn-confirm-place');
     const btnDeleteSelected = document.getElementById('btn-delete-selected');
     const btnCancelSelection = document.getElementById('btn-cancel-selection');
-    const btnRotStep = document.getElementById('btn-rot-step');
     const btnRotReset = document.getElementById('btn-rot-reset');
     const bottomDock = document.getElementById('bottom-dock');
     const modeBuildBtn = document.getElementById('mode-build');
@@ -2159,16 +2227,10 @@
       });
     });
 
-    document.querySelectorAll('.rot-btn').forEach((btn) => {
+    document.querySelectorAll('.rot-step360-btn').forEach((btn) => {
       btn.addEventListener('click', () => {
-        applyShapeRotation(btn.getAttribute('data-rot-axis'), parseInt(btn.getAttribute('data-rot-sign'), 10));
+        applyStep360Rotation(btn.getAttribute('data-rot-mode'));
       });
-    });
-
-    btnRotStep.addEventListener('click', () => {
-      state.rotStepDeg = state.rotStepDeg === 45 ? 90 : 45;
-      btnRotStep.textContent = `Step: ${state.rotStepDeg}°`;
-      showToast(`Rotation step set to ${state.rotStepDeg}°`);
     });
 
     btnRotReset.addEventListener('click', resetShapeRotation);
@@ -2293,11 +2355,12 @@
       });
     }
 
-    function formatRotReadout(item) {
-      const dx = Math.round(THREE.MathUtils.radToDeg(item.rx || 0));
-      const dy = Math.round(THREE.MathUtils.radToDeg(item.ry || 0));
-      const dz = Math.round(THREE.MathUtils.radToDeg(item.rz || 0));
-      return `Rot(${dx}°/${dy}°/${dz}°)`;
+    function syncRot360Readouts(item) {
+      const r = { ...createEmptyRot360(), ...(item?.rot360 || {}) };
+      ['horizontal', 'vertical', 'diag_pos45', 'diag_neg45'].forEach((key) => {
+        const el = document.getElementById(`readout-rot-${key}`);
+        if (el) el.textContent = `${r[key]}°`;
+      });
     }
 
     function updateUIState() {
@@ -2342,15 +2405,18 @@
 
         if (showConfirm) {
           const sp = state.stagedPos;
-          modifyReadout.textContent = `${getShapeSpec(sp.shape).label} (${sp.size}x) • ${formatRotReadout(sp)} • Up:${sp.y}`;
+          syncRot360Readouts(sp);
+          modifyReadout.textContent = `${getShapeSpec(sp.shape).label} (${sp.size}x) • Up:${sp.y}`;
         } else if (showDelete) {
           const sv = state.voxels.get(state.selectedId);
           if (sv) {
-            modifyReadout.textContent = `Selected ${getShapeSpec(sv.shape).label} (${sv.size}x) • ${formatRotReadout(sv)} • Up:${sv.y}`;
+            syncRot360Readouts(sv);
+            modifyReadout.textContent = `Selected ${getShapeSpec(sv.shape).label} (${sv.size}x) • Up:${sv.y}`;
           }
         }
       } else {
         contextBar.classList.add('hidden');
+        syncRot360Readouts(null);
       }
 
       const activeShapeName = getShapeSpec(state.activeShape).label;
@@ -2360,12 +2426,12 @@
       } else if (state.mode === 'select') {
         statusDot.className = 'w-2 h-2 rounded-full bg-rose-400 shrink-0';
         statusText.textContent = state.selectedId
-          ? 'Move (4 dirs + Up/Down), Middle, or Rotate X/Y/Z above — or tap again to delete'
+          ? 'Move, Middle, or step 360° (Horiz / Vert / +45° / -45°) — or tap again to delete'
           : 'Tap any shape to select, move, rotate, resize, recolor, or delete';
       } else if (state.twoTapMode) {
         statusDot.className = 'w-2 h-2 rounded-full bg-sky-400 shrink-0';
         statusText.textContent = state.stagedPos
-          ? 'Move, Middle, or Rotate above — then tap Place Shape (or tap ghost again)'
+          ? 'Move, Middle, or step 360° above — then tap Place Shape (or tap ghost again)'
           : `Tap once to preview ${activeShapeName} (${state.activeSize}x), modify, then tap to place`;
       } else {
         statusDot.className = 'w-2 h-2 rounded-full bg-emerald-400 shrink-0';
@@ -2466,8 +2532,8 @@
 
     btnConfirmPlace.addEventListener('click', () => {
       if (state.stagedPos && !state.isLocked) {
-        const { x, y, z, size, shape, rx, ry, rz } = state.stagedPos;
-        addVoxel(x, y, z, size, state.activeColor, true, shape, rx || 0, ry || 0, rz || 0);
+        const { x, y, z, size, shape, rx, ry, rz, rot360 } = state.stagedPos;
+        addVoxel(x, y, z, size, state.activeColor, true, shape, rx || 0, ry || 0, rz || 0, rot360 || createEmptyRot360());
         setStagedPosition(null);
       }
     });
@@ -2516,10 +2582,10 @@
     // 12. STARTER SEED MODEL & RENDER LOOP
     // =========================================================================
     function buildStarterModel() {
-      addVoxel(-0.5, 0.5, 0.5, 1, '#38bdf8', false, 'square', 0, 0, 0);
-      addVoxel(0.5, 0.5, 0.5, 1, '#6366f1', false, 'square', 0, 0, 0);
-      addVoxel(1.5, 0.5, 0.5, 1, '#38bdf8', false, 'square', 0, 0, 0);
-      addVoxel(0.5, 1.25, 0.5, 0.5, '#f8fafc', false, 'circle', 0, 0, 0);
+      addVoxel(-0.5, 0.5, 0.5, 1, '#38bdf8', false, 'square', 0, 0, 0, createEmptyRot360());
+      addVoxel(0.5, 0.5, 0.5, 1, '#6366f1', false, 'square', 0, 0, 0, createEmptyRot360());
+      addVoxel(1.5, 0.5, 0.5, 1, '#38bdf8', false, 'square', 0, 0, 0, createEmptyRot360());
+      addVoxel(0.5, 1.25, 0.5, 0.5, '#f8fafc', false, 'circle', 0, 0, 0, createEmptyRot360());
       updateUIState();
     }
 
